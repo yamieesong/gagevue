@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.happyjob.study.repository.auth.AuthMapper">  <!-- namespace는
+	full path로 작성해야 한다 -->
+
+	<select id="checkId" parameterType="java.util.Map" resultType="int">
+		/*kr.happyjob.study.repository.auth.AuthMapper.checkId 아이디 중복 확인*/
+		SELECT COUNT(loginId)
+		  FROM tb_userinfo
+		 WHERE loginID = #{loginId}
+	</select>
+	
+	<insert id="insertRgstMbr" parameterType="java.util.Map">
+		/*kr.happyjob.study.repository.auth.AuthMapper.insertRgstMbr 회원가입 - 회원정보 INSERT */
+		INSERT INTO tb_userinfo
+		(
+				  mbr_no
+				, name
+				, mbr_hp
+				, mbr_mail
+				, loginID
+				, user_type
+				, password
+				, mbr_yn
+				, mbr_yn_dtm
+				, mbr_ua_dtm
+				, mbr_pia_dtm
+				, mbr_rgst_dtm
+				, mbr_rgst_id
+
+				
+		)
+		VALUES
+		(
+			   	#{mbrMngNo}
+			,	#{joinNm}
+			,	#{joinHp}
+			,   #{joinMail}
+			,	#{joinId}
+			,	'A'
+			,	#{joinPw}
+			,	#{joinPushYn}
+			,	SYSDATE()
+			,	SYSDATE()
+			,	SYSDATE()
+			,	SYSDATE()
+			,	#{joinId}
+		)		
+	</insert>
+	
+	<select id="mbrMngNoSeq" resultType="int">
+		/*kr.happyjob.study.repository.auth.AuthMapper.mbrMngNoSeq 회원관리번호 채번*/
+		SELECT mbr_mng_no + 1
+		  FROM tb_seq
+	</select>
+	
+	<update id="mbrMngNoSeqAdd" parameterType="int">
+		/*kr.happyjob.study.repository.auth.AuthMapper.mbrMngNoSeqAdd 회원관리번호 업데이트*/
+		UPDATE tb_seq
+		   SET mbr_mng_no = #{mbrMngNo}
+	</update>
+
+</mapper>
