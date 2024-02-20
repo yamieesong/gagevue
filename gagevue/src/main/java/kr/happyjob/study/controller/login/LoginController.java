@@ -33,7 +33,7 @@ import kr.happyjob.study.vo.login.UsrMnuChildAtrtModel;
 
 @Controller
 public class LoginController {
-	
+	// 유동협 커밋 테스트
 	// Set logger
 	private final Logger logger = LogManager.getLogger(this.getClass());
 
