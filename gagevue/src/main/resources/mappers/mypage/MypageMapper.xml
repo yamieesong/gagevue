@@ -5,10 +5,13 @@
 	<!-- 가계부 지출입 내역 -->
 	<select id = "expenditureList" parameterType="java.util.Map" resultType = "kr.happyjob.study.vo.mypage.MypageModel">
 		SELECT
-			mn_use_dvs_det
+			mn_pay_dvs
+			, mn_use_dvs_det
 			, sum(mn_amount) as sum_amount
-		FROM tb_mn
-		WHERE mn_use_dvs = #{mn_use_dvs} 
+		FROM tb_mn	
+		<if test="mn_use_dvs != null">
+			WHERE mn_use_dvs = #{mn_use_dvs} 
+		</if>	
 		AND mn_upd_id = #{loginId}
 		<if test ="(from_date != null) and (!from_date.equals(''))">
 		    AND DATE_FORMAT(mn_upd_dtm, '%Y-%m-%d')  <![CDATA[>=]]> STR_TO_DATE(#{from_date}, '%Y-%m-%d')   
@@ -16,7 +19,12 @@
 		<if test ="(to_date != null) and (!to_date.equals(''))">
 		    AND DATE_FORMAT(mn_upd_dtm, '%Y-%m-%d')  <![CDATA[<=]]> STR_TO_DATE(#{to_date}, '%Y-%m-%d')   
 		</if>
-		GROUP BY mn_use_dvs_det
+		<if test="typeChk == 'pay'">
+			GROUP BY mn_pay_dvs
+		</if>
+		<if test="typeChk != 'pay'">
+			GROUP BY mn_use_dvs_det
+		</if>
 		ORDER BY sum(mn_amount) desc
 	</select>   
 </mapper>
