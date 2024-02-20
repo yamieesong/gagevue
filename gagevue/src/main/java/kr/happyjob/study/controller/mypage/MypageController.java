@@ -46,6 +46,7 @@ public class MypageController {
 			logger.info("   - paramMap : " + paramMap);
 			//String title = (String) paramMap.get("title");
 			String mn_use_dvs = (String) paramMap.get("mn_use_dvs");
+			String mn_pay_dvs = (String) paramMap.get("mn_pay_dvs");
 			String from_date = (String) paramMap.get("from_date");
 			String to_date = (String) paramMap.get("to_date");
 			String loginId = (String) paramMap.get("loginId");
