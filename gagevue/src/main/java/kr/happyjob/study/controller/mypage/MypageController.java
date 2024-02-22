@@ -42,7 +42,8 @@ public class MypageController {
 		@ResponseBody
 		public Map<String, Object> expenditureListVue(Model model, @RequestParam Map<String, Object> paramMap, 
 				HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
-			
+
+
 			logger.info("   - paramMap : " + paramMap);
 			String typeChk = (String) paramMap.get("typeChk");
 			String mn_use_dvs = (String) paramMap.get("mn_use_dvs");
