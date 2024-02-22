@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.happyjob.study.repository.mainlist.MainListMapper">
+	<!-- 가계부 리스트 page - 공통코드 셋팅 -->
+     <select id="getCodeList" resultType="kr.happyjob.study.vo.mainlist.CodeDeailVO">
+            SELECT
+					g.group_code as group_code
+				,	d.detail_code as detail_code
+				,	d.detail_name as detail_name
+				, d.note as note
+				FROM	tb_group_code g
+				LEFT JOIN	tb_detail_code d
+					ON	g.group_code = d.group_code
+				WHERE 1=1
+    		AND g.use_yn = 'Y'
+     </select>
+     
+   <!-- 가계부 리스트 page - 가계부 조회 -->
+   <select id="getgagevueList" parameterType="java.util.Map" 
+	resultType="kr.happyjob.study.vo.mainlist.UseDeailVO">
+	/* getgagevueList */
+			SELECT
+		    main.day,
+		    mn_no,
+		    mbr_no,
+		    mn_dtm,
+		    mn_use_dvs,
+		    (
+		        SELECT detail_name
+		        FROM tb_detail_code
+		        WHERE mn_use_dvs = detail_code
+		    ) AS mn_use_dvs_name,
+		    mn_pay_dvs,
+		    mn_use_dvs_det,
+		    (
+		        SELECT detail_name
+		        FROM tb_detail_code
+		        WHERE mn_use_dvs_det = detail_code
+		    ) AS mn_use_dvs_det_name,
+		    mn_use_memo,
+		    mn_rgst_dtm,
+		    mn_rgst_id,
+		    mn_upd_dtm,
+		    mn_upd_id,
+		    mn_amount,
+		    (
+		        SELECT 
+		            SUM(CASE WHEN mn_use_dvs = '1' AND DATE(mn_dtm) = main.day THEN mn_amount ELSE 0 END)
+		        FROM tb_mn
+		        WHERE 1=1
+		        <if test ="(from_date != null) and (to_date != null)">
+		   		AND DATE(mn_dtm) BETWEEN #{from_date} AND #{to_date} 
+		   		</if>
+		    ) AS sum_for_use_dvs_expense_sum,
+		    (
+		        SELECT
+		            SUM(CASE WHEN mn_use_dvs = '2' AND DATE(mn_dtm) = main.day THEN mn_amount ELSE 0 END)
+		        FROM tb_mn
+		        WHERE 1=1
+		        <if test ="(from_date != null) and (to_date != null)">
+		   		AND DATE(mn_dtm) BETWEEN #{from_date} AND #{to_date} 
+		   		</if>
+		    ) AS sum_for_use_dvs_import_sum
+		FROM (
+		    SELECT DISTINCT DATE(mn_dtm) AS day
+		    FROM tb_mn
+		    WHERE 1=1
+		    <if test ="(from_date != null) and (to_date != null)">
+		    AND DATE(mn_dtm) BETWEEN #{from_date} AND #{to_date} 
+		   </if>
+		) main
+		JOIN tb_mn ON DATE(tb_mn.mn_dtm) = main.day
+     </select>
+     
+ 	<!-- 가계부 리스트 page - 가계부 목록 건수 -->
+	<select id="gagevueListCnt" resultType="int">
+		/*gagevueListCnt*/
+		SELECT COUNT(*) as totalCnt
+		FROM tb_mn
+    	WHERE 1=1
+		<if test ="(from_date != null) and (to_date != null)">
+		 AND DATE(mn_dtm) BETWEEN #{from_date} AND #{to_date} 
+		</if>
+		ORDER BY mn_dtm DESC
+	</select>	
+	
+	<!-- 가계부 리스트 page - 상세 조회 -->
+	  <select id="selectgagevueOne"
+	resultType="kr.happyjob.study.vo.mainlist.UseDeailVO">
+           SELECT mn_no,
+			          mbr_no,
+			          mn_dtm,
+			          mn_use_dvs,
+                ( 
+          SELECT detail_name
+                FROM tb_detail_code
+                WHERE 1=1
+                AND mn_use_dvs = detail_code
+              ) AS mn_use_dvs_name,
+			          mn_pay_dvs,
+			          mn_use_dvs_det,
+                ( 
+          SELECT detail_name
+                FROM tb_detail_code
+                WHERE 1=1
+                AND mn_use_dvs_det = detail_code
+              ) AS mn_use_dvs_det_name,
+			          mn_use_memo,
+			          mn_rgst_dtm,
+			          mn_rgst_id,
+			          mn_upd_dtm,
+			          mn_upd_id,
+			          mn_amount
+           FROM  tb_mn
+           WHERE 1=1
+           <if test ="(mn_no != null)">
+		   AND mn_no = #{mn_no}
+		   </if>					
+     </select>
+     
+     <!-- 가계부 리스트 page - 수정 -->
+	<update id = "gagevueUpdate">
+		UPDATE tb_mn
+		SET		mn_use_dvs = #{mn_use_dvs}
+				,	mn_pay_dvs = #{mn_pay_dvs}
+				,	mn_amount = #{mn_amount}
+				,	mn_use_dvs_det = #{mn_use_dvs_det}
+				,	mn_use_memo = #{mn_use_memo}
+				,	mn_upd_dtm = NOW()
+		WHERE	mn_no = #{mn_no}
+	</update>
+ 	<!-- 가계부 리스트 page - 수입/지출 토탈 조회 -->
+	<select id="gagevueListTotalCnt" resultType="kr.happyjob.study.vo.mainlist.UseDeailVO">
+		/*gagevueListTotalCnt*/
+		 SELECT
+		 	mn_no,
+		    DATE(mn_dtm) AS day,
+		    SUM(CASE WHEN mn_use_dvs = '1' THEN mn_amount ELSE 0 END) AS sum_for_use_dvs_expense,
+		    SUM(CASE WHEN mn_use_dvs = '2' THEN mn_amount ELSE 0 END) AS sum_for_use_dvs_import
+		FROM tb_mn
+		WHERE 1=1
+		<if test ="(from_date != null) and (to_date != null)">
+		 AND DATE(mn_dtm) BETWEEN #{from_date} AND #{to_date} 
+		</if>
+		GROUP BY day
+		ORDER BY day;
+	</select>	
+</mapper>
