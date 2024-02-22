@@ -132,10 +132,16 @@ public class AuthController {
 	 */
 	@RequestMapping("/authSmsSend.do")
 	@ResponseBody
-	public int authSmsSend(Model model, @RequestParam Map<String, Object> paramMap,
+	public Map<String, Object> authSmsSend(Model model, @RequestParam Map<String, Object> paramMap,
 			HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
-		int rst = 0;
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
-		return rst;		
+		/* API 결제 문제로 임시 처리 */
+		resultMap.put("authNum", paramMap.get("code"));
+		resultMap.put("authHp", paramMap.get("authHp"));
+		resultMap.put("result", "SUCCESS");
+		
+		return resultMap;		
 	}
+	
 }
