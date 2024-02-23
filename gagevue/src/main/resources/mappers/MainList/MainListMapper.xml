@@ -47,7 +47,10 @@
 		    mn_amount,
 		    (
 		        SELECT 
-		            SUM(CASE WHEN mn_use_dvs = '1' AND DATE(mn_dtm) = main.day THEN mn_amount ELSE 0 END)
+		            SUM(CASE WHEN mn_use_dvs = '1' 
+		            AND mn_rgst_id = #{mn_rgst_id}
+		            THEN mn_amount 
+		            ELSE 0 END)
 		        FROM tb_mn
 		        WHERE 1=1
 		        <if test ="(from_date != null) and (to_date != null)">
@@ -56,7 +59,10 @@
 		    ) AS sum_for_use_dvs_expense_sum,
 		    (
 		        SELECT
-		            SUM(CASE WHEN mn_use_dvs = '2' AND DATE(mn_dtm) = main.day THEN mn_amount ELSE 0 END)
+		            SUM(CASE WHEN mn_use_dvs = '2' 
+		            AND mn_rgst_id = #{mn_rgst_id}
+		            THEN mn_amount 
+		            ELSE 0 END)
 		        FROM tb_mn
 		        WHERE 1=1
 		        <if test ="(from_date != null) and (to_date != null)">
@@ -72,6 +78,8 @@
 		   </if>
 		) main
 		JOIN tb_mn ON DATE(tb_mn.mn_dtm) = main.day
+		WHERE 1=1
+		and mn_rgst_id = #{mn_rgst_id}
 		ORDER BY mn_dtm
      </select>
      
@@ -84,6 +92,7 @@
 		<if test ="(from_date != null) and (to_date != null)">
 		 AND DATE(mn_dtm) BETWEEN #{from_date} AND #{to_date} 
 		</if>
+		AND mn_rgst_id = #{mn_rgst_id}
 		ORDER BY mn_dtm DESC
 	</select>	
 	
@@ -177,6 +186,7 @@
 		<if test ="(from_date != null) and (to_date != null)">
 		 AND DATE(mn_dtm) BETWEEN #{from_date} AND #{to_date} 
 		</if>
+		AND mn_rgst_id = #{mn_rgst_id}
 		GROUP BY day
 		ORDER BY day;
 	</select>	
