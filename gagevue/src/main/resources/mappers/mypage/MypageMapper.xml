@@ -11,7 +11,7 @@
 		FROM tb_mn	
 		<if test="mn_use_dvs != null">
 			WHERE mn_use_dvs = #{mn_use_dvs} 
-		</if>	
+		</if>
 		AND mn_upd_id = #{loginId}
 		<if test ="(from_date != null) and (!from_date.equals(''))">
 		    AND DATE_FORMAT(mn_upd_dtm, '%Y-%m-%d')  <![CDATA[>=]]> STR_TO_DATE(#{from_date}, '%Y-%m-%d')   
@@ -33,7 +33,10 @@
 			mn_upd_dtm,
 			sum(mn_amount) as sum_amount
 		from tb_mn
-		where mn_use_dvs=1 and mn_pay_dvs =1
+		where
+			mn_upd_id = #{loginId}
+			and mn_use_dvs = 1
+		  	and mn_pay_dvs = 1
 			AND DATE_FORMAT(mn_upd_dtm, '%Y-%m-%d')   <![CDATA[>=]]>  STR_TO_DATE(#{from_date}, '%Y-%m-%d')
 			AND DATE_FORMAT(mn_upd_dtm, '%Y-%m-%d')   <![CDATA[<=]]>  STR_TO_DATE(#{to_date}, '%Y-%m-%d')
 		group by mn_upd_dtm
@@ -44,7 +47,10 @@
 			mn_upd_dtm,
 			sum(mn_amount) as sum_amount
 		from tb_mn
-		where mn_use_dvs=1 and mn_pay_dvs =2
+		where
+			mn_upd_id = #{loginId}
+			and mn_use_dvs = 1
+		  	and mn_pay_dvs = 2
 			AND DATE_FORMAT(mn_upd_dtm, '%Y-%m-%d')   <![CDATA[>=]]>  STR_TO_DATE(#{from_date}, '%Y-%m-%d')
 			AND DATE_FORMAT(mn_upd_dtm, '%Y-%m-%d')   <![CDATA[<=]]>  STR_TO_DATE(#{to_date}, '%Y-%m-%d')
 		group by mn_upd_dtm
