@@ -72,6 +72,7 @@
 		   </if>
 		) main
 		JOIN tb_mn ON DATE(tb_mn.mn_dtm) = main.day
+		ORDER BY mn_dtm
      </select>
      
  	<!-- 가계부 캘린더/리스트 page - 가계부 목록 건수 -->
@@ -135,7 +136,7 @@
 		/* gagevueInsert 가계부 캘린더/리스트 page - 저장 */
 		INSERT INTO tb_mn
 			SELECT
-				IFNULL(MAX(mn_no)+1, 1),
+				CAST(IFNULL(MAX(CAST(mn_no AS UNSIGNED)) + 1, 1) AS CHAR),
 			    #{mbr_no},
 			    #{mn_dtm},
 			    #{mn_use_dvs},
