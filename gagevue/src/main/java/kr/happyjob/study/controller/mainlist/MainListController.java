@@ -22,7 +22,7 @@ import kr.happyjob.study.vo.mainlist.CodeDeailVO;
 import kr.happyjob.study.vo.mainlist.UseDeailVO;
 
 @Controller
-public class MainListController {
+public class MainListController { 
 	
 	// Set logger
 	private final Logger logger = LogManager.getLogger(this.getClass());
@@ -34,7 +34,7 @@ public class MainListController {
 	private MainListService mainlistservice;
 
 	/**
-	 * 가계부 리스트 page - 공통코드 셋팅 
+	 * 가계부 캘린더/리스트 page - 공통코드 셋팅 
 	 * @param model
 	 * @param paramMap
 	 * @param request
@@ -52,7 +52,7 @@ public class MainListController {
 	
 	
 	/**
-	 * 가계부 리스트 page - 가계부 조회 
+	 * 가계부 캘린더/리스트 page - 가계부 조회 
 	 * @param model
 	 * @param paramMap
 	 * @param request
@@ -68,7 +68,7 @@ public class MainListController {
 		
  		logger.info("   - paramMap gagevue Controller param >>>>>  : "+paramMap);
 
- 		// 가계뷰리스트페이지 목록 조회
+ 		// 가계뷰 캘린더/리스트 page 목록 조회
  		List<UseDeailVO> gagevueList = mainlistservice.getgagevueList(paramMap);		
  		// 목록 수 추출
  		int gagevueListCnt = mainlistservice.gagevueListCnt(paramMap);
@@ -101,8 +101,6 @@ public class MainListController {
 	public Map<String, Object> gagevueOne (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
 		
-		logger.info("   - paramMap : " + paramMap);
-
 		String result = "SUCCESS";
 		String resultMsg = "조회 되었습니다.";
 		
@@ -121,7 +119,7 @@ public class MainListController {
 
 	
 	/**
-	 * 가계부 리스트 page - 수정 update
+	 * 가계부 캘린더/리스트 page - 저장 / 수정 
 	 * @param model
 	 * @param paramMap
 	 * @param request
@@ -130,28 +128,33 @@ public class MainListController {
 	 * @return
 	 * @throws Exception
 	 */		
-	@RequestMapping("/scm/updategagevue.do")
+	@RequestMapping("/scm/savegagevue.do")
 	@ResponseBody
-	public Map<String, Object> gagevueUpdate(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+	public Map<String, Object> savegagevue(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
 		
 		logger.info("   - paramMap : " + paramMap);
 		
 		String action = (String)paramMap.get("action");
 		String resultMsg = "";
 
+		int mbr_no = 0;
 		
-		if ("I".equals(action)) {
-			resultMsg = "SUCCESS";
+		if ("INSERT".equals(action)) {
+			/* 회원관리번호 채번 */
+			mbr_no = mainlistservice.mbrNoSeq(paramMap);
+			paramMap.put("mbr_no", mbr_no);	
+			/* 가계부 캘린더 page - 저장 */
+			mainlistservice.gagevueInsert(paramMap);
+			resultMsg = "저장 완료했습니다.";
 		} else if("UPDATE".equals(action)) {
-			// 그룹코드 수정 저장
+			/* 가계부 캘린더/리스트 page - 수정 */
 			mainlistservice.gagevueUpdate(paramMap);
 			resultMsg = "수정 완료했습니다.";
-			System.out.println(paramMap);
 		} else {
 			resultMsg = "FALSE : 등록에 실패하였습니다.";
 		}
-		
-		//결과 값 전송
+
+		// 결과값 전송
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("resultMsg", resultMsg);
 	    

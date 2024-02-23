@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.happyjob.study.repository.mainlist.MainListMapper">
-	<!-- 가계부 리스트 page - 공통코드 셋팅 -->
+	
+	<!-- 가계부 캘린더/리스트 page - 공통코드 셋팅 -->
      <select id="getCodeList" resultType="kr.happyjob.study.vo.mainlist.CodeDeailVO">
+	/* getgagevueList 가계부 캘린더/리스트 page - 공통코드 셋팅 */
             SELECT
 					g.group_code as group_code
 				,	d.detail_code as detail_code
@@ -15,10 +17,10 @@
     		AND g.use_yn = 'Y'
      </select>
      
-   <!-- 가계부 리스트 page - 가계부 조회 -->
+   <!-- 가계부 캘린더/리스트 page - 가계부 조회 -->
    <select id="getgagevueList" parameterType="java.util.Map" 
 	resultType="kr.happyjob.study.vo.mainlist.UseDeailVO">
-	/* getgagevueList */
+	/* getgagevueList 가계부 캘린더/리스트 page - 가계부 조회 */
 			SELECT
 		    main.day,
 		    mn_no,
@@ -26,14 +28,14 @@
 		    mn_dtm,
 		    mn_use_dvs,
 		    (
-		        SELECT detail_name
+		        SELECT MAX(detail_name)
 		        FROM tb_detail_code
 		        WHERE mn_use_dvs = detail_code
 		    ) AS mn_use_dvs_name,
 		    mn_pay_dvs,
 		    mn_use_dvs_det,
 		    (
-		        SELECT detail_name
+		        SELECT MAX(detail_name)
 		        FROM tb_detail_code
 		        WHERE mn_use_dvs_det = detail_code
 		    ) AS mn_use_dvs_det_name,
@@ -72,9 +74,9 @@
 		JOIN tb_mn ON DATE(tb_mn.mn_dtm) = main.day
      </select>
      
- 	<!-- 가계부 리스트 page - 가계부 목록 건수 -->
+ 	<!-- 가계부 캘린더/리스트 page - 가계부 목록 건수 -->
 	<select id="gagevueListCnt" resultType="int">
-		/*gagevueListCnt*/
+		/*gagevueListCnt 가계부 캘린더/리스트 page - 가계부 목록 건수 */
 		SELECT COUNT(*) as totalCnt
 		FROM tb_mn
     	WHERE 1=1
@@ -84,15 +86,16 @@
 		ORDER BY mn_dtm DESC
 	</select>	
 	
-	<!-- 가계부 리스트 page - 상세 조회 -->
+	<!-- 가계부 캘린더/리스트 page - 상세 조회 -->
 	  <select id="selectgagevueOne"
 	resultType="kr.happyjob.study.vo.mainlist.UseDeailVO">
+	/*selectgagevueOne 가계부 캘린더/리스트 page - 상세 조회 */
            SELECT mn_no,
 			          mbr_no,
 			          mn_dtm,
 			          mn_use_dvs,
                 ( 
-          SELECT detail_name
+          SELECT MAX(detail_name)
                 FROM tb_detail_code
                 WHERE 1=1
                 AND mn_use_dvs = detail_code
@@ -100,7 +103,7 @@
 			          mn_pay_dvs,
 			          mn_use_dvs_det,
                 ( 
-          SELECT detail_name
+          SELECT MAX(detail_name)
                 FROM tb_detail_code
                 WHERE 1=1
                 AND mn_use_dvs_det = detail_code
@@ -118,8 +121,38 @@
 		   </if>					
      </select>
      
-     <!-- 가계부 리스트 page - 수정 -->
+     <!-- 가계부 캘린더/리스트 page - 회원관리번호 채번 -->
+	<select id="mbrNoSeq" resultType="int">
+		/*gagevueListCnt 가계부 캘린더/리스트 page - 회원관리번호 채번 */
+		SELECT mbr_no
+		FROM tb_userinfo
+    	WHERE 1=1
+		AND loginID = #{loginID} 
+	</select>	
+	
+	<!-- 가계부 캘린더/리스트 page - 저장 -->
+	<insert id="gagevueInsert" parameterType="java.util.Map">
+		/* gagevueInsert 가계부 캘린더/리스트 page - 저장 */
+		INSERT INTO tb_mn
+			SELECT
+				IFNULL(MAX(mn_no)+1, 1),
+			    #{mbr_no},
+			    #{mn_dtm},
+			    #{mn_use_dvs},
+			    #{mn_pay_dvs},
+			    #{mn_amount},
+			    #{mn_use_dvs_det},
+			    #{mn_use_memo},
+			    now(),
+			    #{mn_rgst_id},
+			    now(),
+			    #{mn_rgst_id}
+			FROM tb_mn
+	</insert>
+	
+    <!-- 가계부 리스트 page - 수정 -->
 	<update id = "gagevueUpdate">
+		/* gagevueUpdate 가계부 리스트 page - 수정 */
 		UPDATE tb_mn
 		SET		mn_use_dvs = #{mn_use_dvs}
 				,	mn_pay_dvs = #{mn_pay_dvs}
@@ -129,9 +162,10 @@
 				,	mn_upd_dtm = NOW()
 		WHERE	mn_no = #{mn_no}
 	</update>
+	
  	<!-- 가계부 리스트 page - 수입/지출 토탈 조회 -->
 	<select id="gagevueListTotalCnt" resultType="kr.happyjob.study.vo.mainlist.UseDeailVO">
-		/*gagevueListTotalCnt*/
+		/* gagevueListTotalCnt 가계부 리스트 page - 수입/지출 토탈 조회 */
 		 SELECT
 		 	mn_no,
 		    DATE(mn_dtm) AS day,
@@ -145,4 +179,6 @@
 		GROUP BY day
 		ORDER BY day;
 	</select>	
+	
+
 </mapper>

@@ -24,36 +24,47 @@ public class MainListService {
 	@Autowired
 	private MainListMapper mainlistMapper;
 	
-	/* 가계부 리스트 page - 공통코드 셋팅 */
+	/* 가계부 캘린더/리스트 page - 공통코드 셋팅 */
 	public List<CodeDeailVO> getCodeList() {
 		return mainlistMapper.getCodeList();
 	}
 	
-	/* 가계부 리스트 page - 가계부 조회 */
+	/* 가계부 캘린더/리스트 page - 가계부 조회 */
 	public List<UseDeailVO> getgagevueList(Map<String, Object> paramMap) throws Exception{
 		return mainlistMapper.getgagevueList(paramMap);
 	}
 
-	/* 가계부 리스트 page - 가계부 목록 건수 */
+	/* 가계부 캘린더/리스트 page - 가계부 목록 건수 */
 	public int gagevueListCnt(Map<String, Object> paramMap) {
 		return mainlistMapper.gagevueListCnt(paramMap);
 	}
 
-	/* 가계부 리스트 page - 상세 조회 */
+	/* 가계부 캘린더/리스트 page - 상세 조회 */
 	public UseDeailVO selectgagevueOne(Map<String, Object> paramMap) throws Exception{
 		return mainlistMapper.selectgagevueOne(paramMap);
 	}
 
-	/* 가계부 리스트 page - 수정 */
-	public int gagevueUpdate(Map<String, Object> paramMap) {
-		return mainlistMapper.gagevueUpdate(paramMap);
-		
+	/* 가계부 캘린더 page - 회원관리번호 채번 */
+	public int mbrNoSeq(Map<String, Object> paramMap) {
+		return mainlistMapper.mbrNoSeq(paramMap);
+	}
+	
+	/* 가계부 캘린더 page - 저장 */
+	public int gagevueInsert(Map<String, Object> paramMap) {
+		return mainlistMapper.gagevueInsert(paramMap);
 	}
 
-	/* 가계부 리스트 page - 수입/지출 토탈 조회 */
+	/* 가계부 캘린더/리스트 page - 수정 */
+	public int gagevueUpdate(Map<String, Object> paramMap) {
+		return mainlistMapper.gagevueUpdate(paramMap);
+	}
+
+	/* 가계부 캘린더/리스트 page - 수입/지출 토탈 조회 */
 	public List<UseDeailVO> gagevueListTotalCnt(Map<String, Object> paramMap) {
 		return mainlistMapper.gagevueListTotalCnt(paramMap);
 	}
+
+
 
 
 }
