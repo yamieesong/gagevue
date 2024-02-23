@@ -18,23 +18,24 @@ public interface MainListMapper {
 	List<UseDeailVO> getgagevueList(Map<String, Object> paramMap) throws Exception;
 
 	/* 가계부 캘린더/리스트 page - 가계부 목록 건수 */
-	int gagevueListCnt(Map<String, Object> paramMap);
+	int gagevueListCnt(Map<String, Object> paramMap) throws Exception;
 
 	/* 가계부 캘린더/리스트 page - 상세 조회 */
 	UseDeailVO selectgagevueOne(Map<String, Object> paramMap) throws Exception;
 
 	/* 가계부 캘린더 page - 회원관리번호 채번 */
-	int mbrNoSeq(Map<String, Object> paramMap);
+	int mbrNoSeq(Map<String, Object> paramMap) throws Exception;
 	
 	/* 가계부 캘린더 page - 저장 */
-	int gagevueInsert(Map<String, Object> paramMap);
+	int gagevueInsert(Map<String, Object> paramMap) throws Exception;
 	
 	/* 가계부 캘린더/리스트 page - 수정 */
-	int gagevueUpdate(Map<String, Object> paramMap);
+	int gagevueUpdate(Map<String, Object> paramMap) throws Exception;
 
 	/* 가계부 캘린더/리스트 page - 수입/지출 토탈 조회 */
-	List<UseDeailVO> gagevueListTotalCnt(Map<String, Object> paramMap);
+	List<UseDeailVO> gagevueListTotalCnt(Map<String, Object> paramMap) throws Exception;
 
-
+	/* 가계부 캘린더/리스트 page - 삭제 */
+	int deletegagevue(Map<String, Object> paramMap) throws Exception;
 
 }

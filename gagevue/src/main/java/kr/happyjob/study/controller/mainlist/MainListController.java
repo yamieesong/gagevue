@@ -22,7 +22,7 @@ import kr.happyjob.study.vo.mainlist.CodeDeailVO;
 import kr.happyjob.study.vo.mainlist.UseDeailVO;
 
 @Controller
-public class MainListController { 
+public class MainListController {
 	
 	// Set logger
 	private final Logger logger = LogManager.getLogger(this.getClass());
@@ -46,7 +46,7 @@ public class MainListController {
 	@RequestMapping("/scm/setCode.do")
 	@ResponseBody
 	 public List<CodeDeailVO> getCodeList(Model model, @RequestParam Map<String, Object> paramMap, 
-	 		HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	 		HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
         return mainlistservice.getCodeList();
     }
 	
@@ -161,8 +161,37 @@ public class MainListController {
 	    return resultMap;
 	}
  		
- 		
- 		
+	/**
+	 * 가계부 캘린더/리스트 page - 삭제
+	 * @param model
+	 * @param paramMap
+	 * @param request
+	 * @param response
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */	
+	@RequestMapping("/scm/deletegagevue.do")
+	@ResponseBody
+	public Map<String, Object> deletegagevue(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) throws Exception {
+		
+		logger.info("   - paramMap : " + paramMap);
+
+		String result = "SUCCESS";
+		String resultMsg = "삭제 되었습니다.";
+		
+		/* 가계부 캘린더/리스트 page - 삭제 */
+		mainlistservice.deletegagevue(paramMap);
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("result", result);
+		resultMap.put("resultMsg", resultMsg);
+		
+		logger.info("+ End " + className + ".noticeDelete");
+		
+		return resultMap;
+	}
  		
 
 }

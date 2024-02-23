@@ -35,7 +35,7 @@ public class MainListService {
 	}
 
 	/* 가계부 캘린더/리스트 page - 가계부 목록 건수 */
-	public int gagevueListCnt(Map<String, Object> paramMap) {
+	public int gagevueListCnt(Map<String, Object> paramMap) throws Exception{
 		return mainlistMapper.gagevueListCnt(paramMap);
 	}
 
@@ -45,23 +45,29 @@ public class MainListService {
 	}
 
 	/* 가계부 캘린더 page - 회원관리번호 채번 */
-	public int mbrNoSeq(Map<String, Object> paramMap) {
+	public int mbrNoSeq(Map<String, Object> paramMap) throws Exception{
 		return mainlistMapper.mbrNoSeq(paramMap);
 	}
 	
 	/* 가계부 캘린더 page - 저장 */
-	public int gagevueInsert(Map<String, Object> paramMap) {
+	public int gagevueInsert(Map<String, Object> paramMap) throws Exception{
 		return mainlistMapper.gagevueInsert(paramMap);
 	}
 
 	/* 가계부 캘린더/리스트 page - 수정 */
-	public int gagevueUpdate(Map<String, Object> paramMap) {
+	public int gagevueUpdate(Map<String, Object> paramMap) throws Exception {
 		return mainlistMapper.gagevueUpdate(paramMap);
 	}
 
 	/* 가계부 캘린더/리스트 page - 수입/지출 토탈 조회 */
-	public List<UseDeailVO> gagevueListTotalCnt(Map<String, Object> paramMap) {
+	public List<UseDeailVO> gagevueListTotalCnt(Map<String, Object> paramMap) throws Exception{
 		return mainlistMapper.gagevueListTotalCnt(paramMap);
+	}
+
+	/* 가계부 캘린더/리스트 page - 삭제 */
+	public int deletegagevue(Map<String, Object> paramMap) throws Exception{
+		return mainlistMapper.deletegagevue(paramMap);
+		
 	}
 
 

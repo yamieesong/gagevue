@@ -2,22 +2,24 @@ package kr.happyjob.study.vo.mainlist;
 
 public class UseDeailVO {
 	
-	private String mn_no;
-	private String mbr_no;
-	private String mn_dtm;
-	private String mn_use_dvs;
-	private String mn_pay_dvs;
-	private String mn_use_dvs_det;
-	private String mn_use_memo;
-	private String mn_rgst_dtm;
-	private String mn_rgst_id;
-	private String mn_upd_dtm;
-	private String mn_upd_id;
-	private String mn_amount;
-	private String mn_use_dvs_name;
-	private String mn_use_dvs_det_name;
-	private String sum_for_use_dvs_expense_sum;
-	private String sum_for_use_dvs_import_sum;
+	private String mn_no;			/* 사용내역관리번호 */
+	private String mbr_no;			/* 회원관리번호 */
+	private String mn_dtm;			/* 날짜 */
+	private String mn_use_dvs;		/* 사용구분코드 */
+	private String mn_pay_dvs;		/* 결제구분 */
+	private String mn_use_dvs_det;  /* 사용상세구분코드 */
+	private String mn_amount;		/* 금액 */
+	private String mn_use_memo;		/* 메모 */
+	private String mn_rgst_dtm;		/* 등록날짜 */
+	private String mn_rgst_id;		/* 등록ID */
+	private String mn_upd_dtm;		/* 수정날짜 */
+	private String mn_upd_id;		/* 수정ID */
+	
+	private String mn_use_dvs_name;		/* 사용구분명 */
+	private String mn_use_dvs_det_name; /* 사용상세구분명 */
+	
+	private String sum_for_use_dvs_import_sum; 	/* 수입 TOTAL */
+	private String sum_for_use_dvs_expense_sum;	/* 지출 TOTAL */
 	
 	
 	public String getMn_no() {

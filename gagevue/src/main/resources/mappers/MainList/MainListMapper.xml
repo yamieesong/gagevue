@@ -181,5 +181,13 @@
 		ORDER BY day;
 	</select>	
 	
+	<!-- 가계부 캘린더/리스트 page - 삭제  -->
+	<delete id="deletegagevue" parameterType="java.util.Map">
+		/*deletegagevue 가계부 캘린더/리스트 page - 삭제  */
+		DELETE
+		FROM 	tb_mn
+		WHERE 	mn_no = #{mn_no}
+	</delete>
+	
 
 </mapper>
