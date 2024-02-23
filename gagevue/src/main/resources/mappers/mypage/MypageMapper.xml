@@ -8,6 +8,7 @@
 			mn_pay_dvs
 			, mn_use_dvs_det
 			, sum(mn_amount) as sum_amount
+			, (select detail_name from tb_detail_code where detail_code = mn_use_dvs_det) as detail_name
 		FROM tb_mn	
 		<if test="mn_use_dvs != null">
 			WHERE mn_use_dvs = #{mn_use_dvs} 

@@ -15,7 +15,14 @@ public class MypageModel {
 	private String mn_rgst_id;
 	private String mn_upd_dtm;
 	private String mn_upd_id;
+	private String detail_name;
 
+	public String getDetail_name() {
+		return detail_name;
+	}
+	public void setDetail_name(String detail_name) {
+		this.detail_name = detail_name;
+	}
 	public int getSum_amount() {
 		return sum_amount;
 	}
