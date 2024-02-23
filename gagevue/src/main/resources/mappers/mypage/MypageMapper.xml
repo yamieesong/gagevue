@@ -8,10 +8,11 @@
 			mn_pay_dvs
 			, mn_use_dvs_det
 			, sum(mn_amount) as sum_amount
+			, (select detail_name from tb_detail_code where detail_code = mn_use_dvs_det) as detail_name
 		FROM tb_mn	
 		<if test="mn_use_dvs != null">
 			WHERE mn_use_dvs = #{mn_use_dvs} 
-		</if>	
+		</if>
 		AND mn_upd_id = #{loginId}
 		<if test ="(from_date != null) and (!from_date.equals(''))">
 		    AND DATE_FORMAT(mn_upd_dtm, '%Y-%m-%d')  <![CDATA[>=]]> STR_TO_DATE(#{from_date}, '%Y-%m-%d')   
@@ -26,5 +27,33 @@
 			GROUP BY mn_use_dvs_det
 		</if>
 		ORDER BY sum(mn_amount) desc
-	</select>   
+	</select>
+
+	<select id="cardCashStatisticsTest1" resultType = "kr.happyjob.study.vo.mypage.MypageModel">
+		select
+			mn_upd_dtm,
+			sum(mn_amount) as sum_amount
+		from tb_mn
+		where
+			mn_upd_id = #{loginId}
+			and mn_use_dvs = 1
+		  	and mn_pay_dvs = 1
+			AND DATE_FORMAT(mn_upd_dtm, '%Y-%m-%d')   <![CDATA[>=]]>  STR_TO_DATE(#{from_date}, '%Y-%m-%d')
+			AND DATE_FORMAT(mn_upd_dtm, '%Y-%m-%d')   <![CDATA[<=]]>  STR_TO_DATE(#{to_date}, '%Y-%m-%d')
+		group by mn_upd_dtm
+	</select>
+
+	<select id="cardCashStatisticsTest2" resultType = "kr.happyjob.study.vo.mypage.MypageModel">
+		select
+			mn_upd_dtm,
+			sum(mn_amount) as sum_amount
+		from tb_mn
+		where
+			mn_upd_id = #{loginId}
+			and mn_use_dvs = 1
+		  	and mn_pay_dvs = 2
+			AND DATE_FORMAT(mn_upd_dtm, '%Y-%m-%d')   <![CDATA[>=]]>  STR_TO_DATE(#{from_date}, '%Y-%m-%d')
+			AND DATE_FORMAT(mn_upd_dtm, '%Y-%m-%d')   <![CDATA[<=]]>  STR_TO_DATE(#{to_date}, '%Y-%m-%d')
+		group by mn_upd_dtm
+	</select>
 </mapper>

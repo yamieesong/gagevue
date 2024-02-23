@@ -10,8 +10,12 @@ import kr.happyjob.study.vo.mypage.MypageModel;
 @Mapper
 public interface MypageMapper {
 
-	// 공지사항 리스트 조회
-	public List<MypageModel> expenditureList(Map<String, Object> paramMap)throws Exception ;
-	
+    // 공지사항 리스트 조회
+    public List<MypageModel> expenditureList(Map<String, Object> paramMap) throws Exception;
+
+    public List<MypageModel> cardCashStatisticsTest1(Map<String, Object> paramMap) throws Exception;
+
+    public List<MypageModel> cardCashStatisticsTest2(Map<String, Object> paramMap) throws Exception;
+
 }
 
