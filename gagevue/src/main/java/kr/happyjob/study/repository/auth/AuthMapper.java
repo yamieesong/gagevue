@@ -1,31 +1,39 @@
 package kr.happyjob.study.repository.auth;
 
-import java.util.List;
 import java.util.Map;
-
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
 import kr.happyjob.study.vo.auth.AuthModel;
-import kr.happyjob.study.vo.auth.AuthVO;
-import kr.happyjob.study.vo.login.LgnInfoModel;
-import kr.happyjob.study.vo.login.UsrMnuAtrtModel;
-import kr.happyjob.study.vo.login.UsrMnuChildAtrtModel;
 
 @Mapper
 public interface AuthMapper {
-	
+	/** 회원가입 */
 	AuthModel registerMbr(Map<String, Object> paramMap);
 	
-	/** 아이디 중복 확잊*/
-	int checkId(Map<String, Object> paramMap);
+	/** ID중복확인 */
+	public int checkId(Map<String, Object> paramMap);
 	
-	/** 회원관리번호 채번 */
-	int mbrMngNoSeq();
-	/** 회원가입 - 회원정보 INSERT */
-	int insertRgstMbr(Map<String, Object> paramMap);
-	/** 회원관리번호 업데이트(SEQ) */
-	int mbrMngNoSeqAdd(int mbrMngNo);
+	/** 회원가입 - 회원관리번호 채번 */
+	public int mbrMngNoSeq();
+	
+	/** 회원가입 */
+	public int insertRgstMbr(Map<String, Object> paramMap);
+	
+	/** 회원가입 - 회원관리번호 업데이트 */
+	public int mbrMngNoSeqAdd(int mbrMngNo);
+	
+	/** 토큰생성 - 토큰생성(C 발급완료, S 인증완료) */
+	public int uuidMbrUpdate(Map<String, Object> paramMap);
+	
+	/** 회원조회 - 인증상태조회 */
+	public Map<String, Object> checkMbrAuthRst(Map<String, Object> paramMap);
+
+	/** 회원조회 */
+	public Map<String, Object> selectMbrMail(Map<String, Object> paramMap);
+	
+	/** 회원조회 - 인증완료 */
+	public int updateToken(Map<String, Object> paramMap);
+	
+	/** 비밀번호 변경 */
+	public int updatePW(Map<String, Object> paramMap);
 }
 
