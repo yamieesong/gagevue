@@ -94,4 +94,8 @@ public class MypageService {
     public void updateUserGoal(Map<String, Object> paramMap) throws Exception {
     	mypageMapper.updateUserGoal(paramMap);
     }
+
+    public void updatePw(Map<String, Object> paramMap) throws Exception{
+        mypageMapper.updatePw(paramMap);
+    }
 }
