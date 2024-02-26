@@ -3,6 +3,7 @@ package kr.happyjob.study.service.mypage;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import kr.happyjob.study.vo.login.UserVO;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,5 +79,9 @@ public class MypageService {
             logger.info(testList.get(i).getSum_amount());
         }
 */
+    }
+
+    public void updateUser(UserVO vo) throws Exception {
+        mypageMapper.updateUser(vo);
     }
 }
