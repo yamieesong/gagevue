@@ -1,84 +1,103 @@
 package kr.happyjob.study.vo.login;
 
 public class UserVO {
-	private String loginId;
-	private String userType;
-	private String name;
-	private String password;
-	private String sex;
-	private String hp;
-	private String email;
-//	private String regdate
-	private String addr;
+    private String loginId;
+    private String userType;
+    private String name;
+    private String password;
+    private String sex;
+    private String hp;
+    private String email;
+    //	private String regdate
+    private String addr;
 
-//	private String birthday
-	public String getLoginId() {
-		return loginId;
-	}
+    private String mbrYn; // 알림수신여부
 
-	public void setLoginId(String loginId) {
-		this.loginId = loginId;
-	}
+    public String getMbrYn() {
+        return mbrYn;
+    }
 
-	public String getUserType() {
-		return userType;
-	}
+    public void setMbrYn(String mbrYn) {
+        this.mbrYn = mbrYn;
+    }
 
-	public void setUserType(String userType) {
-		this.userType = userType;
-	}
+    //	private String birthday
+    public String getLoginId() {
+        return loginId;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setLoginId(String loginId) {
+        this.loginId = loginId;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getUserType() {
+        return userType;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getSex() {
-		return sex;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setSex(String sex) {
-		this.sex = sex;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public String getHp() {
-		return hp;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public void setHp(String hp) {
-		this.hp = hp;
-	}
+    public String getSex() {
+        return sex;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getHp() {
+        return hp;
+    }
 
-	public String getAddr() {
-		return addr;
-	}
+    public void setHp(String hp) {
+        this.hp = hp;
+    }
 
-	public void setAddr(String addr) {
-		this.addr = addr;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	@Override
-	public String toString() {
-		return "UserVO [loginId=" + loginId + ", userType=" + userType + ", name=" + name + ", password=" + password
-				+ ", sex=" + sex + ", hp=" + hp + ", email=" + email + ", addr=" + addr + "]";
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAddr() {
+        return addr;
+    }
+
+    public void setAddr(String addr) {
+        this.addr = addr;
+    }
+
+    @Override
+    public String toString() {
+        return "UserVO{" +
+                "loginId='" + loginId + '\'' +
+                ", userType='" + userType + '\'' +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", sex='" + sex + '\'' +
+                ", hp='" + hp + '\'' +
+                ", email='" + email + '\'' +
+                ", addr='" + addr + '\'' +
+                ", mbrYn='" + mbrYn + '\'' +
+                '}';
+    }
 }
