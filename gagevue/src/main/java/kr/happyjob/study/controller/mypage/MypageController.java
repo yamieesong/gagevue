@@ -1,7 +1,9 @@
 package kr.happyjob.study.controller.mypage;
 
 import kr.happyjob.study.service.mypage.MypageService;
+import kr.happyjob.study.vo.login.UserVO;
 import kr.happyjob.study.vo.mypage.MypageModel;
+import org.apache.catalina.User;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,5 +73,28 @@ public class MypageController {
         }
 
         return resultMap;
+    }
+
+    @RequestMapping("updateUser.do")
+    @ResponseBody
+    public Map<String, Object> updateUser(@RequestParam Map<String, Object> paramMap) throws Exception {
+        logger.info("updateUser start");
+        logger.info("   - paramMap : " + paramMap);
+
+        UserVO vo = new UserVO();
+        vo.setLoginId((String) paramMap.get("loginId"));
+        vo.setHp((String) paramMap.get("hp"));
+        vo.setEmail((String) paramMap.get("email"));
+        vo.setPassword((String) paramMap.get("pw"));
+        vo.setMbrYn((String) paramMap.get("alarmYn"));
+
+        try {
+            mypageService.updateUser(vo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Map<String, Object> resultmap = new HashMap<>();
+        return resultmap;
     }
 }

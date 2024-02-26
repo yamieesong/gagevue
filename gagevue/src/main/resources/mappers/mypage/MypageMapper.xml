@@ -9,16 +9,16 @@
 			, mn_use_dvs_det
 			, sum(mn_amount) as sum_amount
 			, (select detail_name from tb_detail_code where detail_code = mn_use_dvs_det) as detail_name
-		FROM tb_mn	
+		FROM tb_mn
 		<if test="mn_use_dvs != null">
-			WHERE mn_use_dvs = #{mn_use_dvs} 
+			WHERE mn_use_dvs = #{mn_use_dvs}
 		</if>
 		AND mn_upd_id = #{loginId}
 		<if test ="(from_date != null) and (!from_date.equals(''))">
-		    AND DATE_FORMAT(mn_upd_dtm, '%Y-%m-%d')  <![CDATA[>=]]> STR_TO_DATE(#{from_date}, '%Y-%m-%d')   
-		</if>			
+		    AND DATE_FORMAT(mn_upd_dtm, '%Y-%m-%d')  <![CDATA[>=]]> STR_TO_DATE(#{from_date}, '%Y-%m-%d')
+		</if>
 		<if test ="(to_date != null) and (!to_date.equals(''))">
-		    AND DATE_FORMAT(mn_upd_dtm, '%Y-%m-%d')  <![CDATA[<=]]> STR_TO_DATE(#{to_date}, '%Y-%m-%d')   
+		    AND DATE_FORMAT(mn_upd_dtm, '%Y-%m-%d')  <![CDATA[<=]]> STR_TO_DATE(#{to_date}, '%Y-%m-%d')
 		</if>
 		<if test="typeChk == 'pay'">
 			GROUP BY mn_pay_dvs
@@ -55,5 +55,17 @@
 			AND DATE_FORMAT(mn_upd_dtm, '%Y-%m-%d')   <![CDATA[>=]]>  STR_TO_DATE(#{from_date}, '%Y-%m-%d')
 			AND DATE_FORMAT(mn_upd_dtm, '%Y-%m-%d')   <![CDATA[<=]]>  STR_TO_DATE(#{to_date}, '%Y-%m-%d')
 		group by mn_upd_dtm
+	</select>
+
+	<select id="updateUser" parameterType="kr.happyjob.study.vo.login.UserVO">
+		update
+		    tb_userinfo
+		set
+            mbr_hp = #{hp}
+            ,mbr_mail = #{email}
+            ,password = #{password}
+            ,mbr_yn = #{mbrYn}
+		where
+		    loginID = #{loginId}
 	</select>
 </mapper>
