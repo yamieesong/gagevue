@@ -48,7 +48,7 @@
 		    (
 		        SELECT 
 		            SUM(CASE WHEN mn_use_dvs = '1' 
-		            AND mn_rgst_id = #{mn_rgst_id}
+		            AND DATE(mn_dtm) = main.day
 		            THEN mn_amount 
 		            ELSE 0 END)
 		        FROM tb_mn
@@ -60,7 +60,7 @@
 		    (
 		        SELECT
 		            SUM(CASE WHEN mn_use_dvs = '2' 
-		            AND mn_rgst_id = #{mn_rgst_id}
+		            AND DATE(mn_dtm) = main.day
 		            THEN mn_amount 
 		            ELSE 0 END)
 		        FROM tb_mn
@@ -101,11 +101,11 @@
 	resultType="kr.happyjob.study.vo.mainlist.UseDeailVO">
 	/*selectgagevueOne 가계부 캘린더/리스트 page - 상세 조회 */
            SELECT mn_no,
-			          mbr_no, 
-			          DATE(mn_dtm) as mn_dtm,
+			          mbr_no,
+			          DATE_FORMAT(mn_dtm, '%Y-%m-%d') as mn_dtm,
 			          mn_use_dvs,
                 ( 
-          SELECT MAX(detail_name) 
+          SELECT MAX(detail_name)
                 FROM tb_detail_code
                 WHERE 1=1
                 AND mn_use_dvs = detail_code
