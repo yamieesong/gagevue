@@ -63,7 +63,9 @@
 		set
             mbr_hp = #{hp}
             ,mbr_mail = #{email}
+			<if test="password != null and password != ''">
             ,password = #{password}
+			</if>
             ,mbr_yn = #{mbrYn}
 		where
 		    loginID = #{loginId}
