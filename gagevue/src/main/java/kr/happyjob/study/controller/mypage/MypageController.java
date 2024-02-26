@@ -109,17 +109,18 @@ public class MypageController {
         String goal_yr = (String) paramMap.get("goal_yr");
         String goal_m = (String) paramMap.get("goal_m");
     	
-    	UserVO vo = new UserVO();    	
-    	vo.setGoal((String) paramMap.get("goal"));
+    	//UserVO vo = new UserVO();    	
+    	//vo.setGoal((String) paramMap.get("goal"));
     	
     	try {
-    		mypageService.updateUser(vo);
+    		mypageService.updateUserGoal(paramMap);
     	} catch (Exception e) {
     		e.printStackTrace();
     	}
-    	
-    	Map<String, Object> resultmap = new HashMap<>();
-    	return resultmap;
+
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("resultMsg", "UPDATE");
+    	return resultMap;
     }
     
     // 마이페이지 회원정보 조회

@@ -23,6 +23,6 @@ public interface MypageMapper {
     public List<MypageModel> cardCashStatisticsTest2(Map<String, Object> paramMap) throws Exception;
 
     public void updateUser(UserVO vo) throws Exception;
-    public void updateUserGoal(UserVO vo) throws Exception;
+    public void updateUserGoal(Map<String, Object> paramMap) throws Exception;
 }
 
