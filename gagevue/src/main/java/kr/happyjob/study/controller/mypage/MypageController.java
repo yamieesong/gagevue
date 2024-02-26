@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -98,61 +99,69 @@ public class MypageController {
         Map<String, Object> resultmap = new HashMap<>();
         return resultmap;
     }
-    
+
     @RequestMapping("updateUserGoal.do")
     @ResponseBody
     public Map<String, Object> updateUserGoal(@RequestParam Map<String, Object> paramMap) throws Exception {
-    	logger.info("updateUser start");
-    	logger.info("   - paramMap : " + paramMap);
+        logger.info("updateUser start");
+        logger.info("   - paramMap : " + paramMap);
         String goal = (String) paramMap.get("goal");
         String mbr_no = (String) paramMap.get("mbr_no");
         String goal_yr = (String) paramMap.get("goal_yr");
         String goal_m = (String) paramMap.get("goal_m");
-    	
-    	//UserVO vo = new UserVO();    	
-    	//vo.setGoal((String) paramMap.get("goal"));
-    	
-    	try {
-    		mypageService.updateUserGoal(paramMap);
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    	}
 
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("resultMsg", "UPDATE");
-    	return resultMap;
+        //UserVO vo = new UserVO();
+        //vo.setGoal((String) paramMap.get("goal"));
+
+        try {
+            mypageService.updateUserGoal(paramMap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put("resultMsg", "UPDATE");
+        return resultMap;
     }
-    
+
     // 마이페이지 회원정보 조회
     @RequestMapping("getMypageUserInfo.do")
     @ResponseBody
     public Map<String, Object> getMypageUserInfo(Model model, @RequestParam Map<String, Object> paramMap,
-    		HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
-    	logger.info("   - paramMap : " + paramMap);
-    	String loginId = (String) paramMap.get("loginId");
-    	String goal_yr = (String) paramMap.get("goal_yr");
-    	String goal_m = (String) paramMap.get("goal_m");
-    	
-    	//int currentPage = Integer.parseInt((String) paramMap.get("currentPage")); // 현재페이지
-    	//int pageSize = Integer.parseInt((String) paramMap.get("pageSize"));
-    	//int pageIndex = (currentPage - 1) * pageSize;
-    	
-    	//paramMap.put("pageIndex", pageIndex);
-    	//paramMap.put("pageSize", pageSize);
-    	//paramMap.put("title", title);
-    	
-    	// 공지사항 목록 조회
-    	List<MypageUserInfoModel> getMypageUserInfo = mypageService.getMypageUserInfo(paramMap);
-    	
-    	// 목록 수 추출해서 보내기
-    	//int noticeCnt = mypageService.gagevueAllList(paramMap);
-    	
-    	Map<String, Object> resultMap = new HashMap<String, Object>();
-    	resultMap.put("getMypageUserInfo", getMypageUserInfo); // success 용어 담기
-    	//resultMap.put("noticeCnt", noticeCnt); // 리턴 값 해쉬에 담기
-    	//resultMap.put("pageSize", pageSize);
-    	//resultMap.put("currentPage",currentPage);
-    	
-    	return resultMap;
+                                                 HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+        logger.info("   - paramMap : " + paramMap);
+        String loginId = (String) paramMap.get("loginId");
+        String goal_yr = (String) paramMap.get("goal_yr");
+        String goal_m = (String) paramMap.get("goal_m");
+
+        //int currentPage = Integer.parseInt((String) paramMap.get("currentPage")); // 현재페이지
+        //int pageSize = Integer.parseInt((String) paramMap.get("pageSize"));
+        //int pageIndex = (currentPage - 1) * pageSize;
+
+        //paramMap.put("pageIndex", pageIndex);
+        //paramMap.put("pageSize", pageSize);
+        //paramMap.put("title", title);
+
+        // 공지사항 목록 조회
+        List<MypageUserInfoModel> getMypageUserInfo = mypageService.getMypageUserInfo(paramMap);
+
+        // 목록 수 추출해서 보내기
+        //int noticeCnt = mypageService.gagevueAllList(paramMap);
+
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put("getMypageUserInfo", getMypageUserInfo); // success 용어 담기
+        //resultMap.put("noticeCnt", noticeCnt); // 리턴 값 해쉬에 담기
+        //resultMap.put("pageSize", pageSize);
+        //resultMap.put("currentPage",currentPage);
+
+        return resultMap;
+    }
+
+    @RequestMapping("/updatePw")
+    @ResponseBody
+    public void updatePw(@RequestParam Map<String, Object> paramMap) throws Exception {
+        logger.info("updatePw start");
+        logger.info("   - paramMap : " + paramMap);
+        mypageService.updatePw(paramMap);
     }
 }

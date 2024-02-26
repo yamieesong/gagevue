@@ -99,5 +99,13 @@
 	    and
 	    	goal_m = #{goal_m} 
 	</select>
-	
+
+	<update id="updatePw" parameterType="java.util.Map">
+		update
+			tb_userinfo
+		set
+			password = #{password}
+		where
+			loginID = #{loginId}
+	</update>
 </mapper>
