@@ -170,12 +170,15 @@ public class LoginController {
 	* @return
 	*/
 	   @RequestMapping(value = "/loginOut.do")
-	   public ModelAndView loginOut(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-	                  
-	      ModelAndView mav = new ModelAndView();
+	   @ResponseBody
+	   //public ModelAndView loginOut(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+
+		public Map<String, Object> loginOut(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+		         HttpServletResponse response, HttpSession session) throws Exception {
+
+		  Map<String, Object> resultMap = new HashMap<String, Object>();
 	      session.invalidate();
-	      mav.setViewName("redirect:/login");
-	      
-	      return mav;
+
+	      return resultMap;
 	   }
 }
