@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.happyjob.study.repository.auth.AuthMapper">  <!-- namespace는
-	full path로 작성해야 한다 -->
-
+<mapper namespace="kr.happyjob.study.repository.auth.AuthMapper"> 
+	
+	<!-- ID중복확인 -->
 	<select id="checkId" parameterType="java.util.Map" resultType="int">
-		/*kr.happyjob.study.repository.auth.AuthMapper.checkId 아이디 중복 확인*/
+		/*kr.happyjob.study.repository.auth.AuthMapper.checkId [ID중복확인]*/
 		SELECT COUNT(loginId)
 		  FROM tb_userinfo
 		 WHERE loginID = #{loginId}
 	</select>
 	
+	<!-- 회원가입 - 회원정보 INSERT (회원정보 tb_userinfo) -->
 	<insert id="insertRgstMbr" parameterType="java.util.Map">
-		/*kr.happyjob.study.repository.auth.AuthMapper.insertRgstMbr 회원가입 - 회원정보 INSERT */
+		/*kr.happyjob.study.repository.auth.AuthMapper.insertRgstMbr [회원가입] - 회원정보 INSERT (회원정보 tb_userinfo)*/
 		INSERT INTO tb_userinfo
 		(
 				  mbr_no
@@ -27,8 +28,6 @@
 				, mbr_pia_dtm
 				, mbr_rgst_dtm
 				, mbr_rgst_id
-
-				
 		)
 		VALUES
 		(
@@ -48,16 +47,98 @@
 		)		
 	</insert>
 	
-	<select id="mbrMngNoSeq" resultType="int">
-		/*kr.happyjob.study.repository.auth.AuthMapper.mbrMngNoSeq 회원관리번호 채번*/
-		SELECT mbr_mng_no + 1
+	<!-- 회원가입 - 회원정보 INSERT (목표관리 tb_goal) -->
+	<insert id="insertGoal" parameterType="java.util.Map">
+		/*kr.happyjob.study.repository.auth.AuthMapper.insertGoal [회원가입] - 회원정보 INSERT (목표관리 tb_goal)*/
+		INSERT INTO tb_goal
+		(
+				goal_no
+			,	mbr_no
+			,	goal_yr
+			,	goal_m
+			,	goal_bdg
+			,	goal_ntc
+			,	goal_rgst_dtm
+			,	goal_rgst_id
+		)
+		VALUES
+		(
+			   	#{goalNo}
+			,	#{mbrMngNo}
+			,	DATE_FORMAT(NOW(), '%Y')
+			,	DATE_FORMAT(NOW(), '%m')
+			,	#{goalBdg}
+			,	#{goalNtc}
+			,	SYSDATE()
+			,	#{joinId}
+		)		
+	</insert>
+	
+	<!-- 회원가입 - 회원관리번호, 목표관리번호 채번 -->
+	<select id="mbrMngNoSeq" resultType="java.util.Map">
+		/*kr.happyjob.study.repository.auth.AuthMapper.mbrMngNoSeq [회원가입] - 회원관리번호, 목표관리번호 채번*/
+		SELECT mbr_mng_no + 1 AS mbrNo
+			 , goal_no + 1 AS goalNo
 		  FROM tb_seq
 	</select>
 	
-	<update id="mbrMngNoSeqAdd" parameterType="int">
-		/*kr.happyjob.study.repository.auth.AuthMapper.mbrMngNoSeqAdd 회원관리번호 업데이트*/
+	<!-- 회원가입 - 회원관리번호, 목표관리번호 업데이트 -->
+	<update id="mbrMngNoSeqAdd" parameterType="java.util.Map">
+		/*kr.happyjob.study.repository.auth.AuthMapper.mbrMngNoSeqAdd [회원가입] - 회원관리번호 업데이트*/
 		UPDATE tb_seq
 		   SET mbr_mng_no = #{mbrMngNo}
+		   	 , goal_no = #{goalNo}
+	</update>
+	
+	<!-- 토큰생성 - 토큰생성(C 발급완료, S 인증완료) -->
+	<update id="uuidMbrUpdate" parameterType="java.util.Map">
+		/*kr.happyjob.study.repository.auth.AuthMapper.uuidMbrUpdate [토큰생성] - 토큰생성(C 발급완료, S 인증완료)*/
+		UPDATE tb_userinfo
+		   SET mbr_auth_uuid = #{token}
+		   	 , mbr_auth_dtm = SYSDATE()
+		   	 , mbr_auth_rst = "C" 
+		   	 , mbr_auth_rst_dtm = NULL
+		 WHERE mbr_mail = #{mbr_mail}
+	</update>
+	
+	<!-- 회원조회 - 인증완료 -->
+	<update id="updateToken" parameterType="java.util.Map">
+		/*kr.happyjob.study.repository.auth.AuthMapper.updateToken [회원조회] - 인증완료*/
+		UPDATE tb_userinfo
+		   SET mbr_auth_rst = "S"
+		   	 , mbr_auth_rst_dtm = SYSDATE()
+		 WHERE mbr_no = #{mbrNo}
+		   AND mbr_auth_uuid = #{token}
+	</update>
+	
+	<!-- 회원조회 - 인증상태조회 -->
+	<select id="checkMbrAuthRst" parameterType="java.util.Map" resultType="java.util.Map">
+		/*kr.happyjob.study.repository.auth.AuthMapper.checkMbrAuthRst [회원조회] - 인증상태조회*/
+		SELECT loginID AS mbr_id
+			 , mbr_auth_rst
+			 , mbr_mail
+		  FROM tb_userinfo
+		 WHERE mbr_auth_uuid = #{token}
+		   AND mbr_no = #{mbrNo}
+	</select>
+	
+	<!-- 회원조회 -->
+	<select id="selectMbrMail" parameterType="java.util.Map" resultType="java.util.Map">
+		/*kr.happyjob.study.repository.auth.AuthMapper.selectMbrMail [회원조회]*/
+		SELECT mbr_no
+			 , mbr_mail
+		  FROM tb_userinfo
+		 WHERE mbr_mail = #{mbr_mail}
+	</select>
+	
+	<!-- 비밀번호 변경 -->
+	<update id="updatePW" parameterType="java.util.Map">
+		/*kr.happyjob.study.repository.auth.AuthMapper.updatePW [비밀번호 변경]*/
+		UPDATE tb_userinfo
+		   SET password = #{new_pw}
+		   	 , mbr_auth_rst = "S"
+		   	 , mbr_auth_rst_dtm = SYSDATE()
+		 WHERE mbr_no = #{mbr_no}
 	</update>
 
 </mapper>

@@ -75,7 +75,7 @@ public class AuthController {
 	 * @version 1.0.1
 	 * @author hyoung
 	 * @param model
-	 * @param paramMap (joinNm, joinHp, joinMail, joinId, joinPw, joinPushYn)
+	 * @param paramMap
 	 * @param request
 	 * @param response
 	 * @param session
@@ -89,28 +89,29 @@ public class AuthController {
 		String lgnm = "[회원가입]";
 		logger.info(lgnm + rqstm + paramMap.toString());
 		int rst = 0;
-		int mbrMngNo = 0;
 		int seqRst = 0;
 		try {
-			mbrMngNo = authservice.mbrMngNoSeq();
-			if (mbrMngNo > 0) {
-				paramMap.put("mbrMngNo", mbrMngNo);
-			} else {
-				logger.info(lgnm + errm2 + paramMap.get("joinId"));
-				return 0;
+			Map<String, Object> noSeq = new HashMap<String, Object>();
+			noSeq = authservice.mbrMngNoSeq();
+			paramMap.put("mbrMngNo", noSeq.get("mbrNo"));
+			paramMap.put("goalNo", noSeq.get("goalNo"));
+			if("Y".equals(paramMap.get("joinPushYn"))) {
+				paramMap.put("goalNtc", 70);
 			}
-			rst = authservice.insertRgstMbr(paramMap);
+			rst = authservice.insertMbr(paramMap);
 			logger.info(lgnm + scssm + paramMap.get("joinId"));
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info(lgnm + errm1 + paramMap.get("joinId") +  e.getMessage());
+			return rst;
 		}
 		try {
-			seqRst = authservice.mbrMngNoSeqAdd(mbrMngNo);
+			seqRst = authservice.mbrMngNoSeqAdd(paramMap);
 			if (seqRst < 1) {
 				logger.info(lgnm + errm2 + "(TB_SEQ 회원관리번호 업데이트) " + paramMap.get("joinId"));
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info(lgnm + errm1 + paramMap.get("joinId") +  e.getMessage());
+			return rst;
 		}
 		logger.info(lgnm + rstm  + paramMap.get("joinId") + " (" + rst + ")");
 		return rst;
@@ -178,10 +179,10 @@ public class AuthController {
 		Random random = new Random();
 		String mailCODE = String.valueOf(random.nextInt(9000) + 1000);
 		try {
-			String verificationToken = UUID.randomUUID().toString().substring(0, 30);
+			String vtoken = UUID.randomUUID().toString().substring(0, 30);
 
 			Map<String, Object> tokenMap = new HashMap<String, Object>();
-			tokenMap.put("token", verificationToken);
+			tokenMap.put("token", vtoken);
 			tokenMap.put("mailCODE", mailCODE);
 			tokenMap.put("mbr_mail", paramMap.get("mbr_mail"));
 			rst = authservice.uuidMbrUpdate(tokenMap);
@@ -191,11 +192,11 @@ public class AuthController {
 				return resultMap;
 			}
 			if ("ID".equals(paramMap.get("authtype"))) {
-				resultMap.put("mailURL", "/auth/" + verificationToken + paramMap.get("authtype")
+				resultMap.put("mailURL", "/auth/" + vtoken + paramMap.get("authtype")
 						+ paramMap.get("mbr_no"));
 			}
 			if ("PW".equals(paramMap.get("authtype"))) {
-				resultMap.put("mailURL", "/findPW/" + verificationToken
+				resultMap.put("mailURL", "/findPW/" + vtoken
 						+ paramMap.get("authtype") + paramMap.get("mbr_no"));
 			}
 			resultMap.put("mailCODE", mailCODE);
@@ -275,7 +276,7 @@ public class AuthController {
 	}
 
 	/**
-	 * 비밀번호 변경
+	 * 아이디/비밀번호 찾기 - 비밀번호 변경
 	 * 
 	 * @version 1.0.1
 	 * @author hyoung
