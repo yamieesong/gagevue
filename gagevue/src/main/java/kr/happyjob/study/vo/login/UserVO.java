@@ -1,6 +1,7 @@
 package kr.happyjob.study.vo.login;
 
 public class UserVO {
+	private String mbr_no;
     private String loginId;
     private String userType;
     private String name;
@@ -12,21 +13,54 @@ public class UserVO {
     private String addr;
 
     private String mbrYn; // 알림수신여부
-
-    public String getMbrYn() {
-        return mbrYn;
+    
+    private String goal_yr; // 년도
+    private String goal_m; // 월
+    private String goal; // 알림수신여부에 따른 목표치 설정 동의:직접입력, 미동의: 0
+    public String getGoal_yr() {
+    	return goal_yr;
     }
+    
+    public void setGoal_yr(String goal_yr) {
+    	this.goal_yr = goal_yr;
+    }
+    
+    public String getGoal_m() {
+    	return goal_m;
+    }
+    
+    public void setGoal_m(String goal_m) {
+    	this.goal_m = goal_m;
+    }
+    
+    public String getGoal() {
+		return goal;
+	}
+	public void setGoal(String goal) {
+		this.goal = goal;
+	}
 
+	public String getMbrYn() {
+    	return mbrYn;
+    }
+    
     public void setMbrYn(String mbrYn) {
-        this.mbrYn = mbrYn;
+    	this.mbrYn = mbrYn;
     }
 
+    
     //	private String birthday
+    public String getMbr_no() {
+    	return mbr_no;
+    }
+    public void setMbr_no(String mbr_no) {
+    	this.mbr_no = mbr_no;
+    }
+    
     public String getLoginId() {
         return loginId;
     }
-
-    public void setLoginId(String loginId) {
+	public void setLoginId(String loginId) {
         this.loginId = loginId;
     }
 

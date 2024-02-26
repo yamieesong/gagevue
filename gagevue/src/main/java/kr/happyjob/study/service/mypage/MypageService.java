@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import kr.happyjob.study.repository.mypage.MypageMapper;
 
 import kr.happyjob.study.vo.mypage.MypageModel;
+import kr.happyjob.study.vo.mypage.MypageUserInfoModel;
 
 @Service
 public class MypageService {
@@ -25,8 +26,14 @@ public class MypageService {
     @Autowired
     private MypageMapper mypageMapper;
 
+    // 가계뷰 지출입 내역 조회
     public List<MypageModel> expenditureList(Map<String, Object> paramMap) throws Exception {
         return mypageMapper.expenditureList(paramMap);
+    }
+    
+    // 마이페이지 회원정보 조회
+    public List<MypageUserInfoModel> getMypageUserInfo(Map<String, Object> paramMap) throws Exception {
+    	return mypageMapper.getMypageUserInfo(paramMap);
     }
 
     public Map<String, Object> cardCashStatisticsTest(Map<String, Object> paramMap) throws Exception {
@@ -83,5 +90,8 @@ public class MypageService {
 
     public void updateUser(UserVO vo) throws Exception {
         mypageMapper.updateUser(vo);
+    }
+    public void updateUserGoal(UserVO vo) throws Exception {
+    	mypageMapper.updateUserGoal(vo);
     }
 }

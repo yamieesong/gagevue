@@ -68,4 +68,34 @@
 		where
 		    loginID = #{loginId}
 	</select>
+	
+	<!-- 마이페이지 회원정보 -->
+	<select id = "getMypageUserInfo" parameterType="java.util.Map" resultType = "kr.happyjob.study.vo.mypage.MypageUserInfoModel">
+		SELECT
+			a.mbr_no
+			,	a.name
+			,	a.mbr_hp
+			,	a.mbr_mail
+			,	a.loginID
+			,	a.password
+			,	a.mbr_yn
+			,	(select goal_ntc from tb_goal where mbr_no = a.mbr_no and goal_yr = #{goal_yr} and goal_m = #{goal_m}) as goal
+		FROM tb_userinfo a
+		where loginID = #{loginId}
+	</select>
+	
+	<!-- 마이페이지 목표치 수정 -->
+	<select id="updateUserGoal" parameterType="kr.happyjob.study.vo.login.UserVO">
+		update
+		    tb_goal
+		set
+            goal_ntc = #{goal}
+		where
+		    mbr_no = #{mbr_no}
+	    and
+	    	goal_yr = #{goal_yr}
+	    and
+	    	goal_m = #{goal_m} 
+	</select>
+	
 </mapper>
