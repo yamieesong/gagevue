@@ -25,6 +25,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/mypage/")
 public class MypageController {
+    //커밋테스트를 위한 주석
 
     // Set logger
     private final Logger logger = LogManager.getLogger(this.getClass());
