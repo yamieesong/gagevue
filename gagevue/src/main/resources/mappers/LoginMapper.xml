@@ -15,4 +15,10 @@
 			loginID = #{id}
 			and password = #{pw}
 	</select>
+
+	<select id="idCheck">
+		select count(*)
+		from tb_userinfo
+		where loginID = #{id}
+	</select>
 </mapper>

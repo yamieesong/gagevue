@@ -11,5 +11,7 @@ import kr.happyjob.study.vo.login.UserVO;
 @Mapper
 public interface LoginMapper {
 	UserVO login(LoginVO vo);
+
+	int idCheck(String id);
 }
 

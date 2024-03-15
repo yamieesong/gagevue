@@ -34,5 +34,9 @@ public class LoginService {
 	public UserVO login(LoginVO vo) {
 		return mapper.login(vo);
 	}
+
+	public int idCheck(String id) throws Exception {
+		return mapper.idCheck(id);
+	}
 	
 }

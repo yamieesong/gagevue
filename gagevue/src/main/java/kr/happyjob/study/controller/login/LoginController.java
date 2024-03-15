@@ -181,4 +181,15 @@ public class LoginController {
 
 	      return resultMap;
 	   }
+
+	@PostMapping("/idCheck")
+	@ResponseBody
+	public Map<String, Object> idCheck(@RequestParam Map<String, Object> paramMap) throws Exception {
+		logger.info("idCheck start");
+		logger.info(paramMap.get("id"));
+		Map<String, Object> resultMap = new HashMap<>();
+		resultMap.put("result", service.idCheck((String) paramMap.get("id")));
+
+		return resultMap;
+	}
 }
