@@ -12,6 +12,13 @@ import kr.happyjob.study.vo.mypage.MypageUserInfoModel;
 @Mapper
 public interface MypageMapper {
 
+	/* React(리액트) */
+	// 가계부 지출/수입 통계 page 조회
+	public List<MypageModel> getgagevueListChart(Map<String, Object> paramMap);
+	
+    // =================================================================================================================== // 
+
+	/* Vue(뷰) */
     // 가계뷰 지출입 내역 조회
     public List<MypageModel> expenditureList(Map<String, Object> paramMap) throws Exception;
 

@@ -2,6 +2,37 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.happyjob.study.repository.mypage.MypageMapper">
 
+
+	<!-- React(리액트) -->
+	<!-- 가계부 지출/수입 통계 page 조회 -->
+	<select id = "getgagevueListChart" parameterType="java.util.Map" resultType = "kr.happyjob.study.vo.mypage.MypageModel">
+		 SELECT 
+		     mn_dtm
+		    , mn_use_dvs
+		    , mn_amount
+		    , mn_use_dvs_det
+		    , mn_use_memo
+		    , sum(mn_amount) as sum_amount
+		    , (select detail_name from tb_detail_code where detail_code = mn_use_dvs_det) as detail_name
+		    , mn_rgst_id
+		FROM tb_mn
+		    WHERE 1=1 
+		    <if test="mn_use_dvs != null">
+		    AND mn_use_dvs = #{mn_use_dvs}
+		    </if>
+		    <if test="mn_rgst_id != null">
+		    AND mn_rgst_id = #{mn_rgst_id}
+		    </if>
+		    <if test ="(from_date != null) and (to_date != null)">
+		   	AND DATE(mn_dtm) BETWEEN #{from_date} AND #{to_date} 
+		   	</if>
+		    GROUP BY mn_use_dvs_det
+		    ORDER BY sum(mn_amount) desc
+	</select>
+	
+	<!--  // =================================================================================================================== //  -->
+	
+	<!-- React(리액트) -->
 	<!-- 가계부 지출입 내역 -->
 	<select id = "expenditureList" parameterType="java.util.Map" resultType = "kr.happyjob.study.vo.mypage.MypageModel">
 		SELECT

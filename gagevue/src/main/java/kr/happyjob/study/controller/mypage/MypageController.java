@@ -35,7 +35,37 @@ public class MypageController {
 
     @Autowired
     private MypageService mypageService;
+    
+    
+    /* React(리액트) */
+	/**
+	 * 가계부 지출/수입 통계 page 조회
+	 * @param model
+	 * @param paramMap
+	 * @param request
+	 * @param response
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */	
+    @RequestMapping("selectgagevueChart.do")
+	@ResponseBody
+	public Map<String, Object> gagevueListChart(Model model, @RequestParam Map<String, Object> paramMap, 
+	HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
 
+ 		// 가계뷰 지출/수입 통계 page 조회
+ 		List<MypageModel> gagevueListChart = mypageService.getgagevueListChart(paramMap);		
+ 		
+ 		Map<String, Object> resultMap = new HashMap<String, Object>();
+ 		resultMap.put("gagevueListChart", gagevueListChart); 
+
+ 		return resultMap;
+	}
+    
+    // =================================================================================================================== // 
+    
+    
+    /* Vue(뷰) */
     // 가계부 지출 내역
     @RequestMapping("expenditureListVue.do")
     @ResponseBody
