@@ -16,6 +16,9 @@ public interface MypageMapper {
 	// 가계부 지출/수입 통계 page 조회
 	public List<MypageModel> getgagevueListChart(Map<String, Object> paramMap);
 	
+	// 가계뷰 지출/수입 총 합계
+	public int getgagevueListChartTotal(Map<String, Object> paramMap);
+	
     // =================================================================================================================== // 
 
 	/* Vue(뷰) */
@@ -34,5 +37,6 @@ public interface MypageMapper {
     public void updateUserGoal(Map<String, Object> paramMap) throws Exception;
 
     public void updatePw(Map<String, Object> paramMap) throws Exception;
+
 }
 

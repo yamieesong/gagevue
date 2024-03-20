@@ -32,6 +32,11 @@ public class MypageService {
 	public List<MypageModel> getgagevueListChart(Map<String, Object> paramMap) {
 		return mypageMapper.getgagevueListChart(paramMap);
 	}
+	// 가계뷰 지출/수입 총 합계
+	public int getgagevueListChartTotal(Map<String, Object> paramMap) {
+		return mypageMapper.getgagevueListChartTotal(paramMap);
+	}
+	
 	
     // =================================================================================================================== // 
 
@@ -108,4 +113,6 @@ public class MypageService {
     public void updatePw(Map<String, Object> paramMap) throws Exception{
         mypageMapper.updatePw(paramMap);
     }
+
+
 }

@@ -6,6 +6,7 @@
 	<!-- React(리액트) -->
 	<!-- 가계부 지출/수입 통계 page 조회 -->
 	<select id = "getgagevueListChart" parameterType="java.util.Map" resultType = "kr.happyjob.study.vo.mypage.MypageModel">
+		 /*getgagevueListChart 가계부 지출/수입 통계 page 조회 */
 		 SELECT 
 		     mn_dtm
 		    , mn_use_dvs
@@ -14,6 +15,12 @@
 		    , mn_use_memo
 		    , sum(mn_amount) as sum_amount
 		    , (select detail_name from tb_detail_code where detail_code = mn_use_dvs_det) as detail_name
+		    , ROUND(SUM(mn_amount) / 
+		    (SELECT SUM(mn_amount) FROM tb_mn 
+		    WHERE 1=1
+		    AND mn_use_dvs = #{mn_use_dvs} 
+		    AND mn_rgst_id = #{mn_rgst_id} 
+		    AND DATE(mn_dtm) BETWEEN #{from_date} AND #{to_date} ) * 100, 2) AS percentage
 		    , mn_rgst_id
 		FROM tb_mn
 		    WHERE 1=1 
@@ -29,6 +36,26 @@
 		    GROUP BY mn_use_dvs_det
 		    ORDER BY sum(mn_amount) desc
 	</select>
+	
+	<!-- 가계뷰 지출/수입 총 합계 -->
+	<select id="getgagevueListChartTotal" resultType="int">
+		/*getgagevueListChartTotal 가계뷰 지출/수입 총 합계 */
+		SELECT 
+    		SUM(mn_amount) as total_amount
+		FROM 
+    	tb_mn
+		WHERE 1=1
+	    <if test="mn_use_dvs != null">
+		AND mn_use_dvs = #{mn_use_dvs}
+	    </if>
+	    <if test="mn_rgst_id != null">
+	    AND mn_rgst_id = #{mn_rgst_id}
+	    </if>
+	    <if test ="(from_date != null) and (to_date != null)">
+	   	AND DATE(mn_dtm) BETWEEN #{from_date} AND #{to_date} 
+	   	</if>
+	</select>	
+	
 	
 	<!--  // =================================================================================================================== //  -->
 	

@@ -55,10 +55,13 @@ public class MypageController {
 
  		// 가계뷰 지출/수입 통계 page 조회
  		List<MypageModel> gagevueListChart = mypageService.getgagevueListChart(paramMap);		
- 		
+ 		// 가계뷰 지출/수입 총 합계
+ 	 	int gagevueChartTotal = mypageService.getgagevueListChartTotal(paramMap);
+ 	 		
  		Map<String, Object> resultMap = new HashMap<String, Object>();
  		resultMap.put("gagevueListChart", gagevueListChart); 
-
+ 		resultMap.put("gagevueChartTotal", gagevueChartTotal); 
+ 		
  		return resultMap;
 	}
     

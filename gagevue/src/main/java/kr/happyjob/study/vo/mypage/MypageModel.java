@@ -16,7 +16,16 @@ public class MypageModel {
 	private String mn_upd_dtm;
 	private String mn_upd_id;
 	private String detail_name;
-
+	private int percentage;
+	
+	public int getPercentage() {
+		return percentage;
+	}
+	public void setPercentage(int percentage) {
+		this.percentage = percentage;
+	}
+	
+	
 	public String getDetail_name() {
 		return detail_name;
 	}
