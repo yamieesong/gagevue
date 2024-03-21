@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.happyjob.study.repository.menu.MenuMapper">
+    <select id="menuList" resultType="kr.happyjob.study.vo.menu.MenuVo">
+        select *
+        FROM tm_mnu_mst
+        LIMIT #{pageIndex}, #{pageSize}
+    </select>
+
+    <select id="menuListCnt" resultType="int">
+        select count(*) cnt
+        FROM tm_mnu_mst
+    </select>
+
+    <select id="tnUsrMnuAtrt" resultType="kr.happyjob.study.vo.menu.MenuVo">
+        select *
+        from tn_usr_mnu_atrt
+        LIMIT #{pageIndex}, #{pageSize}
+    </select>
+
+    <select id="tnUsrMnuAtrtCnt" resultType="int">
+        select count(*) cnt
+        FROM tn_usr_mnu_atrt
+    </select>
+</mapper>
