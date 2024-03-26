@@ -4,7 +4,7 @@
 
 
 	<!-- React(리액트) -->
-	<!-- 가계부 지출/수입 총 통계 -->
+	<!-- 가계부 지출/수입 통계 page 조회 -->
 	<select id = "getgagevueListChart" parameterType="java.util.Map" resultType = "kr.happyjob.study.vo.mypage.MypageModel">
 		 /*getgagevueListChart 가계부 지출/수입 통계 page 조회 */
 		 SELECT 
@@ -54,42 +54,6 @@
 	    <if test ="(from_date != null) and (to_date != null)">
 	   	AND DATE(mn_dtm) BETWEEN #{from_date} AND #{to_date} 
 	   	</if>
-	</select>	
-	
-	<!-- 가계뷰 지출/수입 결제 통계 -->
-	<select id="getgagevueListPay" parameterType="java.util.Map" resultType = "kr.happyjob.study.vo.mypage.MypageModel">
-		/*getgagevueListPay 가계뷰 지출/수입 결제 통계 */
-		 SELECT 
-		     mn_dtm
-		    , mn_use_dvs
-        	, mn_pay_dvs
-		    , mn_amount
-		    , mn_use_dvs_det
-		    , mn_use_memo
-		    , (select detail_name from tb_detail_code where detail_code = mn_use_dvs_det) as detail_name
-        	, (select detail_name from tb_detail_code where 1=1 and group_code="PAY_DVS" and detail_code = mn_pay_dvs ) as pay_name
-		    , mn_rgst_id
-	        ,CASE 
-		        WHEN DAYOFMONTH(mn_dtm) BETWEEN 1 AND 7 THEN '1주'
-		        WHEN DAYOFMONTH(mn_dtm) BETWEEN 8 AND 14 THEN '2주'
-		        WHEN DAYOFMONTH(mn_dtm) BETWEEN 15 AND 21 THEN '3주'
-		        WHEN DAYOFMONTH(mn_dtm) BETWEEN 22 AND 28 THEN '4주'
-		    ELSE '5주'  
-	    	END AS week_number
-    		,SUM(CASE WHEN mn_pay_dvs = 1 THEN mn_amount ELSE 0 END) AS sum_amount_pay_card
-    		,SUM(CASE WHEN mn_pay_dvs = 2 THEN mn_amount ELSE 0 END) AS sum_amount_pay_money
-		FROM tb_mn
-		WHERE 1=1
-	    <if test="mn_use_dvs != null">
-		AND mn_use_dvs = #{mn_use_dvs}
-	    </if>
-	    <if test="mn_rgst_id != null">
-	    AND mn_rgst_id = #{mn_rgst_id}
-	    </if>
-	    <if test ="(from_date != null) and (to_date != null)">
-	   	AND DATE(mn_dtm) BETWEEN #{from_date} AND #{to_date} 
-	   	</if>
-	   	GROUP BY week_number, mn_pay_dvs
 	</select>	
 	
 	

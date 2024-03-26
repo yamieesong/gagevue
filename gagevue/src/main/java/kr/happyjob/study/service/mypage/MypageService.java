@@ -28,17 +28,13 @@ public class MypageService {
 
     
     /* React(리액트) */
-    // 가계부 지출/수입 총 통계
+    // 가계부 지출/수입 통계 page 조회
 	public List<MypageModel> getgagevueListChart(Map<String, Object> paramMap) {
 		return mypageMapper.getgagevueListChart(paramMap);
 	}
 	// 가계뷰 지출/수입 총 합계
 	public int getgagevueListChartTotal(Map<String, Object> paramMap) {
 		return mypageMapper.getgagevueListChartTotal(paramMap);
-	}
-	// 가계뷰 지출/수입 결제 통계
-	public List<MypageModel> getgagevueListPay(Map<String, Object> paramMap) {
-		return mypageMapper.getgagevueListPay(paramMap);
 	}
 	
 	
@@ -117,7 +113,6 @@ public class MypageService {
     public void updatePw(Map<String, Object> paramMap) throws Exception{
         mypageMapper.updatePw(paramMap);
     }
-
 
 
 }
