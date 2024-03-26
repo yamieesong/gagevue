@@ -16,6 +16,11 @@ public class MypageModel {
 	private String mn_upd_dtm;
 	private String mn_upd_id;
 	private String detail_name;
+	private String pay_name;
+	private String week_number;
+	private String sum_amount_pay_card;
+	private String sum_amount_pay_money;
+	
 	private int percentage;
 	
 	public int getPercentage() {
@@ -26,6 +31,30 @@ public class MypageModel {
 	}
 	
 	
+	public String getSum_amount_pay_card() {
+		return sum_amount_pay_card;
+	}
+	public void setSum_amount_pay_card(String sum_amount_pay_card) {
+		this.sum_amount_pay_card = sum_amount_pay_card;
+	}
+	public String getSum_amount_pay_money() {
+		return sum_amount_pay_money;
+	}
+	public void setSum_amount_pay_money(String sum_amount_pay_money) {
+		this.sum_amount_pay_money = sum_amount_pay_money;
+	}
+	public String getWeek_number() {
+		return week_number;
+	}
+	public void setWeek_number(String week_number) {
+		this.week_number = week_number;
+	}
+	public String getPay_name() {
+		return pay_name;
+	}
+	public void setPay_name(String pay_name) {
+		this.pay_name = pay_name;
+	}
 	public String getDetail_name() {
 		return detail_name;
 	}
