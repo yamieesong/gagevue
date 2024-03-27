@@ -53,13 +53,16 @@ public class MypageController {
 	public Map<String, Object> gagevueListChart(Model model, @RequestParam Map<String, Object> paramMap, 
 	HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
 
- 		// 가계뷰 지출/수입 통계 page 조회
- 		List<MypageModel> gagevueListChart = mypageService.getgagevueListChart(paramMap);		
- 		// 가계뷰 지출/수입 총 합계
+ 		// 가계뷰 지출/수입 항목별 통계 
+ 		List<MypageModel> gagevueListChart = mypageService.getgagevueListChart(paramMap);	
+ 		// 가계뷰 지출/수입 결제별 통계 
+ 	 	List<MypageModel> gagevueListPay = mypageService.getgagevueListPay(paramMap);	
+ 		// 가계뷰 지출/수입 총 합계 금액
  	 	int gagevueChartTotal = mypageService.getgagevueListChartTotal(paramMap);
  	 		
  		Map<String, Object> resultMap = new HashMap<String, Object>();
  		resultMap.put("gagevueListChart", gagevueListChart); 
+ 		resultMap.put("gagevueListPay", gagevueListPay); 
  		resultMap.put("gagevueChartTotal", gagevueChartTotal); 
  		
  		return resultMap;
